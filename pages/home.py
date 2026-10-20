@@ -116,15 +116,12 @@ article_columns = st.columns(2)
 for index, article in enumerate(ARTICLES[:2]):
     with article_columns[index]:
         with st.container(border=True):
-            st.caption(f"{article['subject'].upper()}")
+            st.caption(article["topic"].upper())
 
             st.subheader(article["title"])
-            st.write(article["summary"])
+            st.write(article["description"])
 
-            st.caption(
-                f"{article['questions']} questions"
-                f"  .  {article['minutes']} min"
-            )
+            st.caption(f"Level {article['level']}")
 
             if st.button(
                 "View Article",
