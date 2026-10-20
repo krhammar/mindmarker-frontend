@@ -1,44 +1,20 @@
 import random
 import streamlit as st
+import requests
 
-#Temporary sample content; replace with backend data later
-ARTICLES = [
-    {
-        "id": "study_001",
-        "title": "How Sleep Supports Memory",
-        "subject": "Psychology",
-        "summary": (
-            "Explore how sleep may influence learning "
-            "and the retention of new information."
-        ),
-        "questions": 5,
-        "minutes": 4,
-    },
-    {
-        "id": "study_002",
-        "title": "The Science of Learning",
-        "subject": "Education",
-        "summary": (
-            "Discover research topics involving practice, "
-            "feedback, and long-term knowledge retention."
-        ),
-        "questions": 5,
-        "minutes": 5,
-    },
-    {
-        "id": "study_003",
-        "title": "Artificial Intelligence in Research",
-        "subject": "Computer Science",
-        "summary": (
-            "Explore how researchers study the uses and "
-            "limitations of artificial intelligence."
-        ),
-        "questions": 6,
-        "minutes": 6,
-    },
-]
+from backend_api import get_articles, get_random_article
 
-#Initialize temp session data
+# Load articles from the backend 
+try:
+    ARTICLES = get_articles()
+
+    if isinstance(ARTICLES, dict):
+        ARTICLES = ARTICLES.get("articles", [])
+except (requests.RequestException, ValueError) as error:
+    ARTICLES = []
+    st.error(f"Could not load articles: {error}")
+
+# Initialize temp session data
 if "xp" not in st.session_state:
     st.session_state["xp"] = 0
 if "completed_quizzes" not in st.session_state:
@@ -46,6 +22,7 @@ if "completed_quizzes" not in st.session_state:
 if "answer_results" not in st.session_state:
     st.session_state["answer_results"] = []
 
+# Sets session id to the selected article & switches the page
 def open_article(article_id):
     #Save the chosen article and navigate to its page
     st.session_state["current_article_id"] = article_id
@@ -80,8 +57,15 @@ with left:
             type="primary",
             use_container_width=True
         ):
-            article = random.choice(ARTICLES)
-            open_article(article["id"])
+            try:
+                article = get_random_article()
+
+                if article:
+                    open_article(article["id"])
+                else:
+                    st.warning("No articles are available")
+            except requests.RequestException as error:
+                st.error(f"Could not load a random article: {error}")
 
     with button_browseArticles:
         if st.button(
