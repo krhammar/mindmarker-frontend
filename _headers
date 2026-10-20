@@ -1,0 +1,16 @@
+# Always revalidate the app shell and Python sources so a new deployment is
+# picked up on the next page load instead of a stale cached copy.
+/index.html
+  Cache-Control: no-cache
+
+/app.py
+  Cache-Control: no-cache
+
+/backend_api.py
+  Cache-Control: no-cache
+
+/requirements.txt
+  Cache-Control: no-cache
+
+/pages/*
+  Cache-Control: no-cache

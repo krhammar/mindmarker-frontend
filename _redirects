@@ -1,0 +1,13 @@
+# Streamlit's multi-page navigation changes the URL (for example /explore).
+# On a hard refresh, Stlite always boots into the app's default page, so send
+# those refreshes back to the root instead of showing a Cloudflare 404.
+#
+# Do NOT use a catch-all such as `/* /index.html 200` or `/* / 302`:
+# Cloudflare applies redirects even when a real file exists, which would
+# replace app.py, requirements.txt, and pages/*.py with index.html.
+#
+# Add one line here for each page that gets a non-root URL path.
+/explore     /    302
+/article     /    302
+/quiz        /    302
+/progress    /    302
