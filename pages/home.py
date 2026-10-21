@@ -8,8 +8,8 @@ from backend_api import get_articles, get_random_article
 try:
     ARTICLES = get_articles()
 
-    if isinstance(ARTICLES, dict):
-        ARTICLES = ARTICLES.get("articles", [])
+    #if isinstance(ARTICLES, dict):
+    #    ARTICLES = ARTICLES.get("articles", [])
 except (requests.RequestException, ValueError) as error:
     ARTICLES = []
     st.error(f"Could not load articles: {error}")
@@ -83,7 +83,7 @@ with right:
         results = st.session_state["answer_results"]
 
         accuracy = (
-            round(sum(results)) / len(results) * 100
+            round(sum(results) / len(results) * 100)
             if results
             else 0
         )
@@ -100,7 +100,7 @@ with right:
         st.progress(progress)
 
         st.caption(f"{xp % 100}/100 XP till next level")
-        st.caption(f"Session Accuracy: {accuracy}")
+        st.caption(f"Session Accuracy: {accuracy}%")
 
 # Featured Articles
 # Featured Articles
@@ -116,19 +116,17 @@ article_columns = st.columns(2)
 for index, article in enumerate(ARTICLES[:2]):
     with article_columns[index]:
         with st.container(border=True):
-            st.caption(f"{article['subject'].upper()}")
+            st.caption((article.get("topic") or "Article").upper())
 
-            st.subheader(article["title"])
-            st.write(article["summary"])
+            st.subheader(article.get("title", "Untitled Article"))
 
-            st.caption(
-                f"{article['questions']} questions"
-                f"  .  {article['minutes']} min"
-            )
+            description = article.get("description")
+            if description:
+                st.write(description)
 
             if st.button(
                 "View Article",
-                key=f"article_{article['id']}",
+                key=f"article_{article.get('id', index)}",
                 use_container_width=True
             ):
                 open_article(article["id"])
