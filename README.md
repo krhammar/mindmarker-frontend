@@ -27,7 +27,7 @@ python -m pip install -r requirements.txt
 ```
 ## 5. Run the app
 ```
-`python -m streamlit run app.py
+python -m streamlit run app.py
 ```
 
 ## Updating the Project

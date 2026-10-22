@@ -54,6 +54,8 @@ except requests.RequestException as error:
 metadata, body = split_front_matter(content)
 lead, sections = split_sections(body)
 
+st.session_state["current_article_title"] = metadata.get("title", "this article")
+
 lead_minutes = max(1, round(len(lead.split()) / WORDS_PER_MINUTE))
 full_words = len(lead.split()) + sum(len(text.split()) for _, text in sections)
 full_minutes = max(1, round(full_words / WORDS_PER_MINUTE))
