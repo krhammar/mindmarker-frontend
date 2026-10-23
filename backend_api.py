@@ -43,7 +43,7 @@ def get_article_content(filename):
 # returns a quiz given an article-id and difficulty
 def get_quiz(quiz_id, difficulty="easy"):
     response = requests.get(
-        f"{API_BASE}/quizzes/{quiz_id}/{difficulty}.json",
+        f"{API_BASE}/quizzes/{quiz_id}_{difficulty}.json",
         timeout=20
     )
     response.raise_for_status()

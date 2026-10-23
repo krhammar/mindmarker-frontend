@@ -4,6 +4,8 @@ import requests
 
 from backend_api import get_articles, get_random_article
 
+from gamification import init_progress, level_for, XP_PER_LEVEL
+
 # Load articles from the backend 
 try:
     ARTICLES = get_articles()
@@ -15,12 +17,7 @@ except (requests.RequestException, ValueError) as error:
     st.error(f"Could not load articles: {error}")
 
 # Initialize temp session data
-if "xp" not in st.session_state:
-    st.session_state["xp"] = 0
-if "completed_quizzes" not in st.session_state:
-    st.session_state["completed_quizzes"] = []
-if "answer_results" not in st.session_state:
-    st.session_state["answer_results"] = []
+init_progress(st.session_state)
 
 # Sets session id to the selected article & switches the page
 def open_article(article_id):
@@ -92,14 +89,14 @@ with right:
         col1.metric("Total XP", xp)
         col2.metric("Quizzes", completed)
 
-        level = xp // 100 + 1
-        progress = (xp % 100) / 100
+        level = level_for(xp)
+        progress = (xp % XP_PER_LEVEL) / XP_PER_LEVEL
 
 
         st.write(f"**Level {level}**")
         st.progress(progress)
 
-        st.caption(f"{xp % 100}/100 XP till next level")
+        st.caption(f"{xp % XP_PER_LEVEL}/{XP_PER_LEVEL} XP till next level")
         st.caption(f"Session Accuracy: {accuracy}%")
 
 # Featured Articles

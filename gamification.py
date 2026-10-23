@@ -34,7 +34,7 @@ def record_quiz(state, article_id, difficulty, results):
     state["xp"] += awarded
     state["quiz_best"][key] = max(previous_best, earned)
     state["answer_results"].extend(results)
-    if key not in state["completed quizzes"]:
+    if key not in state["completed_quizzes"]:
         state["completed_quizzes"].append(key)
 
     return {
