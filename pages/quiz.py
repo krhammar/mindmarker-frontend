@@ -42,7 +42,9 @@ def next_question(total, article_id, difficulty):
         st.session_state["quiz_index"] += 1
     else:
         st.session_state["quiz_summary"] = record_quiz(
-            st.session_state, article_id, difficulty, st.session_state["quiz_results"]
+            st.session_state, article_id,
+            difficulty, st.session_state["quiz_results"],
+            title=st.session_state.get("current_article_title")
         )
 
 def change_difficulty(difficulty):
@@ -54,6 +56,10 @@ def show_results(summary, article_id, difficulty, quiz_key):
             st.balloons()
         if summary["level_up"]:
             st.toast(f"Level up! You're now level {summary['level']}")
+        if summary.get("new_title"):
+            st.toast(f"New title unlocked: {summary['new_title']}")
+        for badge in summary.get("new_badges", []):
+            st.toast(f"Badge earned: {badge}")
         summary["celebrated"] = True
 
     st.subheader("Quiz complete!")
@@ -70,6 +76,8 @@ def show_results(summary, article_id, difficulty, quiz_key):
         )
     if summary["perfect"]:
         st.success("Perfect score! +50% bonus XP")
+        if summary.get("new_badges"):
+            st.info("New badge: " + ", ".join(summary["new_badges"]))
 
     left, middle, right = st.columns(3)
     left.button("Retake quiz", on_click=reset_quiz, args=(quiz_key,), use_container_width=True)
@@ -86,6 +94,8 @@ def show_results(summary, article_id, difficulty, quiz_key):
 
     if right.button("Back to article", use_container_width=True):
         st.switch_page("pages/article.py")
+    if st.button("View your progress"):
+        st.switch_page("pages/progress.py")
 
 # Page
 # Page
