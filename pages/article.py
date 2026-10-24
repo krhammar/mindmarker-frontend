@@ -4,6 +4,7 @@ import requests
 import streamlit as st
 
 from backend_api import get_article_content
+from article_math import format_math
 
 WORDS_PER_MINUTE = 230
 LINK_PATTERN = re.compile(r"\[([^\]]+)\]\((?:[^()]|\([^()]*\))*\)")
@@ -27,6 +28,7 @@ def split_front_matter(text):
 # Returns the intro and a list of (heading, text) for each ## section
 def split_sections(body):
     body = LINK_PATTERN.sub(r"\1", body)
+    body = format_math(body)
     body = re.sub(r"^# .*\n", "", body, count=1)
     parts = re.split(r"^## (.+)$", body, flags=re.MULTILINE)
     lead = parts[0].strip()
