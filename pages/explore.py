@@ -3,6 +3,20 @@ import streamlit as st
 
 from backend_api import get_articles
 
+# adds some weights to either side of the screen
+st.markdown("""
+<style>
+/* Constrain the main content and center it */
+.block-container {
+    max-width: 1500px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin: auto;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
 st.title("Explore the Library")
 st.caption("Find an article, discover a topic, and start learning")
 

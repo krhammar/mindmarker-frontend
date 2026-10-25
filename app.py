@@ -3,8 +3,8 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="WebsiteTitle",
-    page_icon=None,
+    page_title="Mindmarker",
+    page_icon="Assets/MindMarkerLogosmol.png",
     layout="wide"
 )
 

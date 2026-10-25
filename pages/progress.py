@@ -9,6 +9,22 @@ from gamification import (
     progress_stats
 )
 
+
+# adds some weights to either side of the screen
+st.markdown("""
+<style>
+/* Constrain the main content and center it */
+.block-container {
+    max-width: 1500px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin: auto;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
+
 init_progress(st.session_state)
 stats = progress_stats(st.session_state)
 history = st.session_state["quiz_history"]
