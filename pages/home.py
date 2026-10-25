@@ -43,7 +43,7 @@ def open_article(article_id):
 # Header
 # Header
 
-st.image("assets/mindmarkerlogoblack.png", width=400)
+st.image("assets/MindMarkerLogoblack.png", width=400)
 #st.caption("Cool description that goes with WittyTitle")
 
 st.divider()
