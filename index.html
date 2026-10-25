@@ -64,6 +64,18 @@
             "pages/article.py": { url: "./pages/article.py" },
             "pages/quiz.py": { url: "./pages/quiz.py" },
             "pages/progress.py": { url: "./pages/progress.py" },
+            // Static assets used by st.image()/page_icon. Streamlit reads these
+            // from the Python file system, so they must be mounted here as well
+            // as being served by Cloudflare (scripts/build.sh copies Assets/).
+            "Assets/MindMarkerLogoblack.png": {
+              url: "./Assets/MindMarkerLogoblack.png",
+            },
+            "Assets/MindMarkerLogosmol.png": {
+              url: "./Assets/MindMarkerLogosmol.png",
+            },
+            "Assets/mindmarkerlogowhitebackground.png": {
+              url: "./Assets/mindmarkerlogowhitebackground.png",
+            },
           },
           // Known subpage URLs redirect to the root (see _redirects), so the
           // app always starts from the site root instead of a 404.

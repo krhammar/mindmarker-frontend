@@ -18,4 +18,10 @@ cp "$ROOT/index.html" "$ROOT/_redirects" "$ROOT/_headers" "$ROOT/requirements.tx
 cp "$ROOT"/*.py "$DIST/"
 cp "$ROOT"/pages/*.py "$DIST/pages/"
 
+# Static assets referenced from Python (st.image, page_icon, ...). These have
+# to be served over HTTP *and* mounted into Stlite's in-browser file system
+# (see the files map in index.html), otherwise they render locally but 404 on
+# the deployed site.
+cp -R "$ROOT/Assets" "$DIST/Assets"
+
 echo "Built static site in $DIST"

@@ -110,6 +110,21 @@ When you add a dependency to `requirements.txt`, no change is needed: Stlite
 reads that file in the browser and installs what it can. Dependencies must be
 available for Pyodide.
 
+When you add a **static asset** (an image used by `st.image()`, `page_icon`,
+etc.), register it in **two** places:
+
+1. `index.html` — add it to the `files` map so Stlite mounts it into the
+   in-browser file system. Streamlit reads images from the Python file system,
+   not over HTTP, so a file that is only served is still invisible to
+   `st.image()`.
+2. `scripts/build.sh` — copy it into `dist/` so Cloudflare serves it (the
+   `Assets/` directory is copied automatically; subdirectories you add need the
+   same treatment).
+
+Forgetting either one produces the classic "works locally, broken in
+production" image: locally the file exists on disk, but on Cloudflare it is
+either not deployed or not mounted.
+
 ## Updating Stlite
 
 `index.html` pins an exact Stlite version (`@stlite/browser@1.12.0`) so a new
@@ -130,6 +145,9 @@ version in both the `<link>` and the `import` URL, then test locally and push.
   reload or a shared deep link returns to the start.
 - **API requests fail only in production:** almost always CORS or a mixed-content
   (HTTP vs HTTPS) issue.
+- **Images render locally but not on the live site:** the asset is missing from
+  either `dist/` or the Stlite `files` map in `index.html`. See "Updating the
+  app" above.
 - **Old version still showing:** hard-refresh. The `_headers` file marks the
   app files as `no-cache`, but a service worker or browser cache can still hold
   on to a previous page.
