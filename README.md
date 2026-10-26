@@ -34,7 +34,14 @@ python -m streamlit run app.py
 Use github desktop to pull latest changes before starting work
 Guys please commit regularly
 
+
+
+
 If requirements.txt has changed, activate the virtual environment and run
 ```
  python -m pip install -r requirements.txt
 ```
+
+
+## Backend repo at
+https://github.com/Matthews12882/mindmarker-backend
